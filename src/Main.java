@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner inFile1 = new Scanner(new File("KeyWestTemp.txt")).useDelimiter("\\s");
+        //Scanner inFile2 = new Scanner(new File(args[0])).useDelimiter("\\s");
 
         //List<Integer[][]> imageList = new ArrayList<>();
         HashMap<String, Integer[][]> imageHashMap = new HashMap();
