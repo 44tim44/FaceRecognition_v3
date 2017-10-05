@@ -21,12 +21,13 @@ public class Main {
         while(!done)
         {
             temp = inFile1.next();
-            System.out.println(temp);
+            //System.out.println(temp);
             if(!temp.startsWith("#"))
             {
                 done = true;
             }
         }
+
         inFile1.useDelimiter("\\s");
 
         while (inFile1.hasNext())
@@ -35,17 +36,17 @@ public class Main {
             String imageName = inFile1.next();
             if (!imageName.isEmpty())
             {
-                System.out.println(imageName);
+                //System.out.println(imageName);
                 Integer[][] image = new Integer[20][20];
                 for (int y = 0; y < 20; y++)
                 {
                     for (int x = 0; x < 20; x++)
                     {
-                        System.out.println(inFile1.hasNextInt());
+                        //System.out.println(inFile1.hasNextInt());
                         //System.out.println(inFile1.next());
                         int value = inFile1.nextInt();
                         image[x][y] = value;
-                        System.out.println(value);
+                        //System.out.println(value);
                     }
                 }
                 //imageList.add(image);
