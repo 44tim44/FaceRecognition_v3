@@ -26,7 +26,7 @@ public class Network
     }
 
     public void train(HashMap<String, Integer[][]> images, HashMap<String, Integer> facit) {
-        //do {
+        do {
             int expectedExpression;
 
             List<String> list = new ArrayList<>(images.keySet());
@@ -53,11 +53,11 @@ public class Network
                 }
             }
             meanError = summedError / counter;
-        //}
-        //while (meanError > 0.001);
+        }
+        while (meanError > 0.01);
     }
 
-    public double examine(HashMap<String, Integer[][]> images, HashMap<String, Integer>  facit) {
+    public double examine(HashMap<String, Integer[][]> images, HashMap<String, Integer>  facit, boolean print) {
 
         int amountCorrect = 0;
         int amount = 0;
@@ -92,10 +92,11 @@ public class Network
                     expressionString = "Mad";
                     break;
             }
-            System.out.println(key + " " + expressionString);
+            //System.out.println(key + " " + expressionString);
+            if(print) System.out.println(key + " " + expression);
         }
-        System.out.println();
-        System.out.println("Amount correct = " + ((double)amountCorrect / (double)amount)*100 + "%");
+        //System.out.println();
+        //System.out.println("Amount correct = " + ((double)amountCorrect / (double)amount)*100 + "%");
         return ((double)amountCorrect / (double)amount);
     }
 

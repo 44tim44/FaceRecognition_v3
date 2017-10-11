@@ -46,16 +46,21 @@ public class Main {
 
             double minorTotalPercent = 0;
             double percent = 0;
-            for(int k = 0; k<400; k++) {
+            int k = 0;
+            do{
                 network.train(trainingSet, trainingFacit);
-                percent = network.examine(evaluationSet,trainingFacit);
+                percent = network.examine(evaluationSet,trainingFacit,false);
                 minorTotalPercent += percent;
+                k++;
             }
-            System.out.println("Average amount correct = " + minorTotalPercent/4 + "%");
+            while(k<100);
+            //System.out.println("Average amount correct = " + minorTotalPercent/k*100 + "%");
 
-            totalPercent += network.examine(testingImages, testingFacit);
+        double amountCorrect = network.examine(testingImages, testingFacit,true);
+        totalPercent += amountCorrect;
+        //System.out.println("Amount correct final exam = " + amountCorrect*100 + "%");
         //}
-        //System.out.println("Average amount correct = " + totalPercent + "%");
+        //System.out.println("Average amount correct 100 final exams = " + totalPercent + "%");
 
         //Integer[][] image1 = trainingImages.get("Image1");
         //printImage(image1);
