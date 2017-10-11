@@ -7,12 +7,25 @@ import java.util.*;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException{
+    public static void main(String[] args) throws FileNotFoundException
+    {
+        HashMap<String, Integer[][]> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
+        HashMap<String, Integer> trainingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt");
+        HashMap<String, Integer[][]> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
+        HashMap<String, Integer> testingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt");
 
-        Scanner inFile1 = new Scanner(new File("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt")).useDelimiter("\\n");
-        //Scanner inFile2 = new Scanner(new File(args[0])).useDelimiter("\\s");
 
-        //List<Integer[][]> imageList = new ArrayList<>();
+
+        //Integer[][] image1 = trainingImages.get("Image1");
+        //printImage(image1);
+
+    }
+
+    public static HashMap<String,Integer[][]> loadImages(String filePath) throws FileNotFoundException
+    {
+        //Scanner inFile1 = new Scanner(new File()).useDelimiter("\\n");
+        Scanner inFile1 = new Scanner(new File(filePath)).useDelimiter("\\n");
+
         HashMap<String, Integer[][]> imageHashMap = new HashMap();
 
         //SkipIntro
@@ -21,7 +34,6 @@ public class Main {
         while(!done)
         {
             temp = inFile1.next();
-            //System.out.println(temp);
             if(!temp.startsWith("#"))
             {
                 done = true;
@@ -42,23 +54,56 @@ public class Main {
                 {
                     for (int x = 0; x < 20; x++)
                     {
-                        //System.out.println(inFile1.hasNextInt());
-                        //System.out.println(inFile1.next());
                         int value = inFile1.nextInt();
                         image[x][y] = value;
-                        //System.out.println(value);
                     }
                 }
-                //imageList.add(image);
                 imageHashMap.put(imageName, image);
             }
         }
 
-        Integer[][] bildTest = imageHashMap.get("Image1");
+        return imageHashMap;
+    }
+
+    public static HashMap<String,Integer> loadFacit(String filePath) throws FileNotFoundException
+    {
+        //Scanner inFile1 = new Scanner(new File()).useDelimiter("\\n");
+        Scanner inFile = new Scanner(new File(filePath)).useDelimiter("\\n");
+
+        HashMap<String, Integer> facitHashMap = new HashMap();
+
+        String temp;
+        boolean done = false;
+        while(!done)
+        {
+            temp = inFile.next();
+            if(!temp.startsWith("#"))
+            {
+                done = true;
+            }
+        }
+
+        inFile.useDelimiter("\\s");
+
+        while (inFile.hasNext())
+        {
+            String imageName = inFile.next();
+            if (!imageName.isEmpty())
+            {
+                int value = inFile.nextInt();
+                facitHashMap.put(imageName, value);
+            }
+        }
+        return facitHashMap;
+    }
+
+
+    public static void printImage(Integer[][] image)
+    {
         for (int y = 0; y < 20; y++)
         {
             for (int x = 0; x < 20; x++) {
-                int value = bildTest[x][y];
+                int value = image[x][y];
                 System.out.print(value + " ");
                 if(value < 10)
                 {
