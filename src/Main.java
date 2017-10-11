@@ -9,12 +9,53 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException
     {
-        HashMap<String, Integer[][]> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
-        HashMap<String, Integer> trainingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt");
-        HashMap<String, Integer[][]> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
-        HashMap<String, Integer> testingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt");
+        double totalPercent = 0;
+        //for(int i = 0; i<100; i++) {
+            HashMap<String, Integer[][]> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
+            HashMap<String, Integer> trainingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt");
+            HashMap<String, Integer[][]> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
+            HashMap<String, Integer> testingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt");
+
+            Network network = new Network();
 
 
+            List<String> list = new ArrayList<>(trainingImages.keySet());
+            int size = list.size();
+
+            Map<String, Integer[][]> linkedMap = new LinkedHashMap<>();
+            list.forEach(k->linkedMap.put(k, trainingImages.get(k)));
+
+            HashMap<String, Integer[][]> trainingSet = new HashMap<>();
+            HashMap<String, Integer[][]> evaluationSet = new HashMap<>();
+            int l = 0;
+            for(Map.Entry<String, Integer[][]> entry : linkedMap.entrySet()) {
+                String key = entry.getKey();
+                Integer[][] image = entry.getValue();
+
+                if(l < size*2/3)
+                {
+                    trainingSet.put(key, image);
+                }
+                else
+                {
+                    evaluationSet.put(key, image);
+                }
+
+                l++;
+            }
+
+            double minorTotalPercent = 0;
+            double percent = 0;
+            for(int k = 0; k<400; k++) {
+                network.train(trainingSet, trainingFacit);
+                percent = network.examine(evaluationSet,trainingFacit);
+                minorTotalPercent += percent;
+            }
+            System.out.println("Average amount correct = " + minorTotalPercent/4 + "%");
+
+            totalPercent += network.examine(testingImages, testingFacit);
+        //}
+        //System.out.println("Average amount correct = " + totalPercent + "%");
 
         //Integer[][] image1 = trainingImages.get("Image1");
         //printImage(image1);

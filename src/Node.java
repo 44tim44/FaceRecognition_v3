@@ -15,6 +15,12 @@ public class Node {
     {
         this.learningRate = learningRate;
         this.faceExpression = faceExpression;
+
+        for(int i=0; i<400; i++) {
+            this.weights.add(Math.random());
+        }
+        // Add a bias weight
+        this.weights.add(1.0);
     }
 
     public void train(Integer[][] image, int desiredValue)
@@ -45,8 +51,12 @@ public class Node {
         // Add bias-weight
         sum += weights.get(400);
 
-        // Activation function
-        this.activationValue = (1 / (1 + Math.exp(-sum)));
+        // Activation function (Sigmoid)
+            this.activationValue = (1 / (1 + Math.exp(-sum)));
+        // Activation function (Step)
+            //this.activationValue = Math.signum(sum);
+        // Activation function (Hyperbolic)
+            //this.activationValue = Math.tanh(sum);
     }
 
     public double calcError(int desiredValue)
@@ -69,5 +79,14 @@ public class Node {
                 i++;
             }
         }
+    }
+
+    public int getFaceExpression()
+    {
+        return faceExpression;
+    }
+
+    public Double getError() {
+        return error;
     }
 }
