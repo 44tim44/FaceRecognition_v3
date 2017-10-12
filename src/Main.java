@@ -79,6 +79,10 @@ public class Main {
                             {
                                 imagePixels[x][y] = 0;
                             }
+                            else if(Integer.parseInt(temp) >= 29)
+                            {
+                                imagePixels[x][y] = 32;
+                            }
                             else
                             {
                                 imagePixels[x][y] = Integer.parseInt(temp);
