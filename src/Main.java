@@ -11,52 +11,38 @@ public class Main {
     {
         double totalPercent = 0;
         //for(int i = 0; i<100; i++) {
-            HashMap<String, Integer[][]> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
-            HashMap<String, Integer> trainingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt");
-            HashMap<String, Integer[][]> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
-            HashMap<String, Integer> testingFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt");
+            ArrayList<Image> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
+            ArrayList<Image> trainingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt",trainingImages);
+            ArrayList<Image> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
+            ArrayList<Image> testingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt",testingImages);
 
             Network network = new Network();
 
+            ArrayList<Image> trainingSet = (ArrayList<Image>) trainingImagesWithFacit.clone();
+            for(int i = trainingSet.size()*2/3; i<trainingSet.size();i++)
+            {
+                trainingSet.remove(i);
+            }
 
-            List<String> list = new ArrayList<>(trainingImages.keySet());
-            int size = list.size();
-
-            Map<String, Integer[][]> linkedMap = new LinkedHashMap<>();
-            list.forEach(k->linkedMap.put(k, trainingImages.get(k)));
-
-            HashMap<String, Integer[][]> trainingSet = new HashMap<>();
-            HashMap<String, Integer[][]> evaluationSet = new HashMap<>();
-            int l = 0;
-            for(Map.Entry<String, Integer[][]> entry : linkedMap.entrySet()) {
-                String key = entry.getKey();
-                Integer[][] image = entry.getValue();
-
-                if(l < size*2/3)
-                {
-                    trainingSet.put(key, image);
-                }
-                else
-                {
-                    evaluationSet.put(key, image);
-                }
-
-                l++;
+            ArrayList<Image> evaluationSet = (ArrayList<Image>) trainingImagesWithFacit.clone();
+            for(int i = 0; i<evaluationSet.size()*2/3;i++)
+            {
+                evaluationSet.remove(i);
             }
 
             double minorTotalPercent = 0;
             double percent = 0;
             int k = 0;
             do{
-                network.train(trainingSet, trainingFacit);
-                percent = network.examine(evaluationSet,trainingFacit,false);
+                network.train(trainingSet);
+                percent = network.examine(evaluationSet,false);
                 minorTotalPercent += percent;
                 k++;
             }
             while(k<100);
             //System.out.println("Average amount correct = " + minorTotalPercent/k*100 + "%");
 
-        double amountCorrect = network.examine(testingImages, testingFacit,true);
+        double amountCorrect = network.examine(testingImagesWithFacit,true);
         totalPercent += amountCorrect;
         //System.out.println("Amount correct final exam = " + amountCorrect*100 + "%");
         //}
@@ -67,80 +53,78 @@ public class Main {
 
     }
 
-    public static HashMap<String,Integer[][]> loadImages(String filePath) throws FileNotFoundException
+    public static ArrayList<Image> loadImages(String filePath) throws FileNotFoundException
     {
-        //Scanner inFile1 = new Scanner(new File()).useDelimiter("\\n");
-        Scanner inFile1 = new Scanner(new File(filePath)).useDelimiter("\\n");
-
-        HashMap<String, Integer[][]> imageHashMap = new HashMap();
-
-        //SkipIntro
         String temp;
-        boolean done = false;
-        while(!done)
+        Scanner inFile = new Scanner(new File(filePath));
+
+        ArrayList<Image> imageList = new ArrayList<>();
+
+        while(inFile.hasNextLine())
         {
-            temp = inFile1.next();
+            temp = inFile.nextLine();
+
             if(!temp.startsWith("#"))
             {
-                done = true;
-            }
-        }
-
-        inFile1.useDelimiter("\\s");
-
-        while (inFile1.hasNext())
-        {
-
-            String imageName = inFile1.next();
-            if (!imageName.isEmpty())
-            {
-                //System.out.println(name);
-                Integer[][] image = new Integer[20][20];
-                for (int y = 0; y < 20; y++)
+                if(temp.startsWith("Image"))
                 {
-                    for (int x = 0; x < 20; x++)
+                    String imageName = temp;
+                    Integer[][] imagePixels = new Integer[20][20];
+                    for (int y = 0; y < 20; y++)
                     {
-                        int value = inFile1.nextInt();
-                        image[x][y] = value;
+                        for (int x = 0; x < 20; x++)
+                        {
+                            temp = inFile.next();
+                            if(Integer.parseInt(temp) <= 5)
+                            {
+                                imagePixels[x][y] = 0;
+                            }
+                            else
+                            {
+                                imagePixels[x][y] = Integer.parseInt(temp);
+                            }
+                        }
                     }
+                    Image image = new Image(imageName,imagePixels);
+                    imageList.add(image);
                 }
-                imageHashMap.put(imageName, image);
             }
         }
+        inFile.close();
 
-        return imageHashMap;
+        return imageList;
     }
 
-    public static HashMap<String,Integer> loadFacit(String filePath) throws FileNotFoundException
+    public static ArrayList<Image> loadFacit(String filePath, ArrayList<Image> imageList) throws FileNotFoundException
     {
-        //Scanner inFile1 = new Scanner(new File()).useDelimiter("\\n");
-        Scanner inFile = new Scanner(new File(filePath)).useDelimiter("\\n");
-
-        HashMap<String, Integer> facitHashMap = new HashMap();
-
         String temp;
-        boolean done = false;
-        while(!done)
+        Scanner inFile = new Scanner(new File(filePath));
+
+        while(inFile.hasNextLine())
         {
-            temp = inFile.next();
+            temp = inFile.nextLine();
+
             if(!temp.startsWith("#"))
             {
-                done = true;
+                if(temp.startsWith("Image"))
+                {
+                    String tempArr[] = temp.split("\\s+");
+                    String imageName = tempArr[0];
+                    String value = tempArr[1];
+                    for(Image image : imageList)
+                    {
+                        if(image.getName().equals(imageName))
+                        {
+                            System.out.println("Facit exp: " + value);
+                            image.setExpression(Integer.parseInt(value));
+                        }
+                    }
+                }
             }
         }
+        inFile.close();
 
-        inFile.useDelimiter("\\s");
-
-        while (inFile.hasNext())
-        {
-            String imageName = inFile.next();
-            if (!imageName.isEmpty())
-            {
-                int value = inFile.nextInt();
-                facitHashMap.put(imageName, value);
-            }
-        }
-        return facitHashMap;
+        return imageList;
     }
 
 
