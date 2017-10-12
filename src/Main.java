@@ -94,7 +94,7 @@ public class Main {
             String imageName = inFile1.next();
             if (!imageName.isEmpty())
             {
-                //System.out.println(imageName);
+                //System.out.println(name);
                 Integer[][] image = new Integer[20][20];
                 for (int y = 0; y < 20; y++)
                 {
