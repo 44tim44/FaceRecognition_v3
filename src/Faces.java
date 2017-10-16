@@ -6,16 +6,21 @@ import java.util.*;
  * @author Timmy Eklund, id15ted@cs.umu.se
  * @author Alex Norrman, id14ann@cs.umu.se
  *
+ * Faces Class
  * Main-method class, responsible for running facial recognition software, utilizing perceptrons.
  */
-public class Main {
+public class Faces {
 
     public static void main(String[] args) throws FileNotFoundException
     {
-        ArrayList<Image> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
-        ArrayList<Image> trainingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt",trainingImages);
-        ArrayList<Image> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
-        ArrayList<Image> testingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-B.txt",testingImages);
+        //ArrayList<Image> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
+        //ArrayList<Image> trainingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt",trainingImages);
+        //ArrayList<Image> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
+
+        ArrayList<Image> trainingImages = loadImages(args[0]);
+        ArrayList<Image> trainingImagesWithFacit = loadFacit(args[1],trainingImages);
+        ArrayList<Image> testingImages = loadImages(args[2]);
+
 
         Network network = new Network();
 
@@ -45,7 +50,7 @@ public class Main {
         while(k<100);
 
         //Final test.
-        network.examine(testingImagesWithFacit,true);
+        network.examine(testingImages,true);
 
     }
 
