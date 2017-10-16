@@ -11,12 +11,18 @@ import java.util.*;
  */
 public class Faces {
 
+    /**
+     * Method main()
+     * Runs the program.
+     *
+     * @param args Program must be run with following arguments:
+     *             args[0] = Path to a .txt-file containing training-images.
+     *             args[1] = Path to a .txt-file containing facit for training-images.
+     *             args[2] = Path to a .txt-file containing testing-images.
+     * @throws FileNotFoundException Throws if given non-existing file or incorrect filepath.
+     */
     public static void main(String[] args) throws FileNotFoundException
     {
-        //ArrayList<Image> trainingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/training-A.txt");
-        //ArrayList<Image> trainingImagesWithFacit = loadFacit("/Users/timmy/IdeaProjects/FaceRecognition/src/facit-A.txt",trainingImages);
-        //ArrayList<Image> testingImages = loadImages("/Users/timmy/IdeaProjects/FaceRecognition/src/test-B.txt");
-
         ArrayList<Image> trainingImages = loadImages(args[0]);
         ArrayList<Image> trainingImagesWithFacit = loadFacit(args[1],trainingImages);
         ArrayList<Image> testingImages = loadImages(args[2]);
@@ -24,14 +30,14 @@ public class Faces {
 
         Network network = new Network();
 
-        //Adds 2/3 of the training-images with facit to a traningset.
+        //Adds 2/3 of the training-images with facit to a training-set.
         @SuppressWarnings("unchecked")
         ArrayList<Image> trainingSet = (ArrayList<Image>) trainingImagesWithFacit.clone();
         for(int i = trainingSet.size()*2/3; i<trainingSet.size();i++)
         {
             trainingSet.remove(i);
         }
-        //Adds the remaining 1/3 to an evaluationset.
+        //Adds the remaining 1/3 to an evaluation-set.
         @SuppressWarnings("unchecked")
         ArrayList<Image> evaluationSet = (ArrayList<Image>) trainingImagesWithFacit.clone();
         for(int i = 0; i<evaluationSet.size()*2/3;i++)
@@ -55,12 +61,13 @@ public class Faces {
     }
 
     /**
-     * loadImages
+     * Method loadImages()
      * Loads the images from a text-file. The irrelevant lines are not loaded.
      * The images are placed into an ArrayList.
+     *
      * @param filePath The path to the images text-file
      * @return The ArrayList, containing all the images
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Throws if given non-existing file or incorrect filepath.
      */
     private static ArrayList<Image> loadImages(String filePath) throws FileNotFoundException
     {
@@ -115,13 +122,14 @@ public class Faces {
     }
 
     /**
-     * loadFacit
+     * Method loadFacit()
      * Loads the facit from a text-file. The irrelevant lines are not loaded.
      * Adds the facit to each image in the ArrayList.
+     *
      * @param filePath The path to the facit text-file
      * @param imageList The ArrayList of the images
      * @return The ArrayList of the images, now containing the facit for the images.
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Throws if given non-existing file or incorrect filepath.
      */
     private static ArrayList<Image> loadFacit(String filePath, ArrayList<Image> imageList) throws FileNotFoundException
     {
