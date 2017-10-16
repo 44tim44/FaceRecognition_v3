@@ -11,6 +11,13 @@ public class Image
     private Integer[][] image;
     private int expression;
 
+    /**
+     * Constructor Image()
+     * Initializes Image.
+     *
+     * @param name Name of the Image
+     * @param image The Integer-matrix of pixel-values that make up the actual image.
+     */
     public Image(String name, Integer[][] image)
     {
         this.name = name;
@@ -18,6 +25,9 @@ public class Image
     }
 
     /**
+     * Method getName()
+     * Returns variable name.
+     *
      * @return Returns the name of the image
      */
     public String getName()
@@ -26,6 +36,9 @@ public class Image
     }
 
     /**
+     * Method getImage()
+     * Returns variable image.
+     *
      * @return Returns the image-matrix
      */
     public Integer[][] getImage()
@@ -34,6 +47,9 @@ public class Image
     }
 
     /**
+     * Method getExpression()
+     * Returns variable expression.
+     *
      * @return Returns an int that represents the correct expression of the image
      */
     public int getExpression() {
@@ -41,7 +57,10 @@ public class Image
     }
 
     /**
-     * @param expression Sets an in that represents the correct expression of the image
+     * Method setExpression()
+     * Sets the variable expression to a new facial expression.
+     *
+     * @param expression Sets an int that represents the correct expression of the image
      */
     public void setExpression(int expression) {
         this.expression = expression;
