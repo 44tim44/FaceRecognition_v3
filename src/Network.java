@@ -1,12 +1,12 @@
 import java.util.*;
 
 /**
- * Class Network
- * Responsible for handling the neural network consisting of four nodes.
- * Manages training of the nodes, and utilizing the nodes to analyze images.
- *
  * @author Timmy Eklund, id15ted@cs.umu.se
  * @author Alex Norrman, id14ann@cs.umu.se
+ *
+ * Network Class
+ * Responsible for handling the neural network consisting of four nodes.
+ * Manages training of the nodes, and utilizing the nodes to analyze images.
  */
 public class Network
 {
