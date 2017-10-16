@@ -3,6 +3,10 @@ import java.util.*;
 /**
  * @author Timmy Eklund, id15ted@cs.umu.se
  * @author Alex Norrman, id14ann@cs.umu.se
+ *
+ * Network Class
+ * Responsible for handling the neural network consisting of four nodes.
+ * Manages training of the nodes, and utilizing the nodes to analyze images.
  */
 public class Network
 {
@@ -12,12 +16,15 @@ public class Network
     public static final int MAD = 4;
 
     private ArrayList<Node> nodes = new ArrayList<>();
-    private final Double learningRate = 0.010;
+    private static final Double learningRate = 0.010;
 
     private double summedError = 0;
-    private double meanError = 0;
     private int counter = 0;
 
+    /**
+     * Constructor Network()
+     * Initializes the four types of nodes.
+     */
     public Network()
     {
         nodes.add(new Node(learningRate, HAPPY));
@@ -26,7 +33,14 @@ public class Network
         nodes.add(new Node(learningRate, MAD));
     }
 
+
+    /**
+     * Method train()
+     * Trains the nodes using the images supplied in imageList.
+     * @param imageList ArrayList of images to be used for training.
+     */
     public void train(ArrayList<Image> imageList) {
+        double meanError;
         do {
             int expectedExpression;
             Collections.shuffle(imageList);
@@ -54,6 +68,13 @@ public class Network
         while (meanError > 0.01);
     }
 
+    /**
+     * Method examine().
+     * Tests images in imageList, using the trained nodes, and returns an output for each image.
+     * @param imageList ArrayList containing the images supplied
+     * @param print Boolean for whether the results should be printed in Standard.out.
+     * @return Returns a percentile value (0.00-1.00) of the amount correct guesses made by the nodes.
+     */
     public double examine(ArrayList<Image> imageList, boolean print)
     {
 
@@ -75,28 +96,17 @@ public class Network
             {
                 amountCorrect++;
             }
+
             amount++;
-            String expressionString = "undefined";
-            switch (expression){
-                case(HAPPY):
-                    expressionString = "Happy";
-                    break;
-                case (SAD):
-                    expressionString = "Sad";
-                    break;
-                case(MISCHIEVOUS):
-                    expressionString = "Mischievous";
-                    break;
-                case(MAD):
-                    expressionString = "Mad";
-                    break;
+
+            if(print)
+            {
+                System.out.println(imageData.getName() + " " + expression);
             }
-            //if(print) System.out.println(imageData.getName() + " " + expression);
-            if(print) System.out.println(imageData.getName() + " act: " + expression + ", exp: " + imageData.getExpression());
         }
-        //System.out.println();
-        System.out.println("Amount correct = " + ((double)amountCorrect / (double)amount)*100 + "%");
+        /* Uncomment line below, for testing purposes, to print success percentage */
+        //System.out.println("Amount correct = " + ((double)amountCorrect / (double)amount)*100 + "%");
+
         return ((double)amountCorrect / (double)amount);
     }
-
 }
