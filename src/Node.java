@@ -92,11 +92,11 @@ public class Node {
                 break;
             case(1):
                 // Activation function (Step)
-                this.activationValue = Math.signum(sum);
+                this.activationValue = Math.signum(-sum);
                 break;
             case(2):
                 // Activation function (Hyperbolic)
-                this.activationValue = Math.tanh(sum);
+                this.activationValue = Math.tanh(-sum);
                 break;
         }
 
