@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -21,7 +22,7 @@ public class Faces {
      *             args[2] = Path to a .txt-file containing testing-images.
      * @throws FileNotFoundException Throws if given non-existing file or incorrect filepath.
      */
-    public static void main(String[] args) throws FileNotFoundException
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException
     {
         ArrayList<Image> trainingImages = loadImages(args[0]);
         ArrayList<Image> trainingImagesWithFacit = loadFacit(args[1],trainingImages);
@@ -156,7 +157,6 @@ public class Faces {
                         //Adds the expression.
                         if(image.getName().equals(imageName))
                         {
-                            System.out.println("Facit exp: " + value);
                             image.setExpression(Integer.parseInt(value));
                         }
                     }

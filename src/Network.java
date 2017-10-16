@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -74,8 +77,10 @@ public class Network
      * @param imageList ArrayList containing the images supplied
      * @param print Boolean for whether the results should be printed in Standard.out.
      */
-    public void examine(ArrayList<Image> imageList, boolean print)
+    public void examine(ArrayList<Image> imageList, boolean print) throws FileNotFoundException, UnsupportedEncodingException
     {
+        PrintWriter writer = new PrintWriter("results.txt", "UTF-8");
+
         for(Image imageData : imageList)
         {
             Integer[][] image = imageData.getImage();
@@ -92,7 +97,9 @@ public class Network
             if(print)
             {
                 System.out.println(imageData.getName() + " " + expression);
+                writer.println(imageData.getName() + " " + expression);
             }
         }
+        writer.close();
     }
 }
