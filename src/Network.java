@@ -1,7 +1,8 @@
 import java.util.*;
 
 /**
- * Created by timmy on 2017-10-11.
+ * @author Timmy Eklund, id15ted@cs.umu.se
+ * @author Alex Norrman, id14ann@cs.umu.se
  */
 public class Network
 {

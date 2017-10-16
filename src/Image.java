@@ -1,6 +1,9 @@
 /**
  * @author Timmy Eklund, id15ted@cs.umu.se
  * @author Alex Norrman, id14ann@cs.umu.se
+ *
+ * Image Class
+ * An image created as an matrix.
  */
 public class Image
 {

@@ -3,6 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
+ * @author Timmy Eklund, id15ted@cs.umu.se
+ * @author Alex Norrman, id14ann@cs.umu.se
+ *
  * Main-method class, responsible for running facial recognition software, utilizing perceptrons.
  */
 public class Main {

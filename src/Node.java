@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 /**
+ * @author Timmy Eklund, id15ted@cs.umu.se
+ * @author Alex Norrman, id14ann@cs.umu.se
+ *
  * Node Class
  * A perceptron neural network node.
  */
