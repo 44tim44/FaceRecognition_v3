@@ -1,15 +1,18 @@
 import java.util.ArrayList;
 
 /**
- * Created by timmy on 2017-10-11.
+ * Node Class
+ * A perceptron neural network node.
  */
+@SuppressWarnings("package")
 public class Node {
 
     private Double activationValue;
     private Double learningRate;
     private Double error = 0.0;
-    private ArrayList<Double> weights = new ArrayList();
+    private ArrayList<Double> weights = new ArrayList<>();
     private int faceExpression;
+    private static final int function_Type = 0;
 
     public Node(Double learningRate, int faceExpression)
     {
@@ -35,7 +38,7 @@ public class Node {
         return this.activationValue;
     }
 
-    public void calcActivationValue(Integer[][] image)
+    private void calcActivationValue(Integer[][] image)
     {
         double sum = 0.0;
         int i = 0;
@@ -51,20 +54,29 @@ public class Node {
         // Add bias-weight
         sum += weights.get(400);
 
-        // Activation function (Sigmoid)
-            this.activationValue = (1 / (1 + Math.exp(-sum)));
-        // Activation function (Step)
-            //this.activationValue = Math.signum(sum);
-        // Activation function (Hyperbolic)
-            //this.activationValue = Math.tanh(sum);
+        switch (function_Type){
+            case(0):
+                // Activation function (Sigmoid)
+                this.activationValue = (1 / (1 + Math.exp(-sum)));
+                break;
+            case(1):
+                // Activation function (Step)
+                this.activationValue = Math.signum(sum);
+                break;
+            case(2):
+                // Activation function (Hyperbolic)
+                this.activationValue = Math.tanh(sum);
+                break;
+        }
+
     }
 
-    public double calcError(int desiredValue)
+    private double calcError(int desiredValue)
     {
         return desiredValue - activationValue;
     }
 
-    public void calcWeights(Integer[][] image, int desiredValue)
+    private void calcWeights(Integer[][] image, int desiredValue)
     {
         this.error = calcError(desiredValue);
         int i = 0;
