@@ -73,13 +73,9 @@ public class Network
      * Tests images in imageList, using the trained nodes, and returns an output for each image.
      * @param imageList ArrayList containing the images supplied
      * @param print Boolean for whether the results should be printed in Standard.out.
-     * @return Returns a percentile value (0.00-1.00) of the amount correct guesses made by the nodes.
      */
-    public double examine(ArrayList<Image> imageList, boolean print)
+    public void examine(ArrayList<Image> imageList, boolean print)
     {
-
-        int amountCorrect = 0;
-        int amount = 0;
         for(Image imageData : imageList)
         {
             Integer[][] image = imageData.getImage();
@@ -92,21 +88,11 @@ public class Network
 
             double maxKey = Collections.max(values.keySet());
             int expression = values.get(maxKey);
-            if(expression == imageData.getExpression())
-            {
-                amountCorrect++;
-            }
-
-            amount++;
 
             if(print)
             {
                 System.out.println(imageData.getName() + " " + expression);
             }
         }
-        /* Uncomment line below, for testing purposes, to print success percentage */
-        //System.out.println("Amount correct = " + ((double)amountCorrect / (double)amount)*100 + "%");
-
-        return ((double)amountCorrect / (double)amount);
     }
 }
